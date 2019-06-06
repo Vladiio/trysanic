@@ -2,4 +2,5 @@ from marshmallow import Schema, fields
 
 
 class PostSchema(Schema):
-    content = fields.Str()
+    id = fields.Int(dump_only=True)
+    content = fields.Str(required=True)

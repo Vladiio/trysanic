@@ -12,23 +12,18 @@ bp = Blueprint('blog')
 async def posts(request):
     async with request.app.db.acquire() as conn:
         posts = await conn.execute(post.select())
-        posts = await posts.fetchall()
-
-    posts = [{key: value for key, value in row.items()} for row in posts]
-    result = PostSchema().dumps(posts, many=True)
-
-    return response.json({'posts': result})
+        posts, errors = PostSchema().dump(posts, many=True)
+        return response.json({'posts': posts})
 
 
 @bp.route('/create', methods=['POST'])
 async def create_post(request):
-    print(request.json)
-    if not request.json or 'content' not in request.json:
-        return response.json({}, status=400)
+    post_data, errors = PostSchema().load(request.json)
+    if errors:
+        return response.json(errors, status=400)
 
     async with request.app.db.acquire() as conn:
         result = await conn.execute(
-            post.insert().values(content=request.json['content']))
+            post.insert().values(**post_data))
         inserted_id = await result.scalar()
-
     return response.json({'id': inserted_id}, status=201)
