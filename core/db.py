@@ -21,7 +21,8 @@ async def setup():
     engine = await create_engine(user='sanic',
                                  database='trysanic',
                                  host='localhost',
-                                 password='pass')
+                                 password='pass',
+                                 echo=True)
 
     return engine
 
