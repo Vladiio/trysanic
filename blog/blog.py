@@ -2,6 +2,7 @@ import json
 
 from sanic import Blueprint, response
 from sanic.exceptions import NotFound
+import sqlalchemy as sa
 
 from . import db
 from .serializers import PostSchema
@@ -12,7 +13,8 @@ bp = Blueprint('blog')
 @bp.route('/')
 async def posts(request):
     async with request.app.db.acquire() as conn:
-        posts = await conn.execute(db.post.select())
+        posts = await conn.execute(sa.select([db.post])
+                                   )  # TODO select related authors
         posts, errors = PostSchema().dump(posts, many=True)
         return response.json({'posts': posts})
 
@@ -20,12 +22,15 @@ async def posts(request):
 @bp.route('/', methods=['POST'])
 async def create_post(request):
     post_data, errors = PostSchema().load(request.json)
+    author_data = post_data.pop('author', None)
+
     if post_data is None or errors:
         return response.json(errors, status=400)
 
     async with request.app.db.acquire() as conn:
         result = await conn.execute(db.post.insert().values(**post_data))
         inserted_id = await result.scalar()
+        await conn.execute(db.author.insert().values(**author_data))
     return response.json({'id': inserted_id}, status=201)
 
 
