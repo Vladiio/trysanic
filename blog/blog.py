@@ -13,9 +13,13 @@ bp = Blueprint('blog')
 @bp.route('/')
 async def posts(request):
     async with request.app.db.acquire() as conn:
-        posts = await conn.execute(sa.select([db.post])
-                                   )  # TODO select related authors
-        posts, errors = PostSchema().dump(posts, many=True)
+        posts = await conn.execute(
+            sa.select([db.post, db.author.c.name.label('author_name')]).select_from(
+                db.post.outerjoin(db.author))
+        )
+        posts = [
+            {column: value for column, value in post.items()} async for post in posts
+        ]
         return response.json({'posts': posts})
 
 
@@ -28,9 +32,15 @@ async def create_post(request):
         return response.json(errors, status=400)
 
     async with request.app.db.acquire() as conn:
-        result = await conn.execute(db.post.insert().values(**post_data))
-        inserted_id = await result.scalar()
-        await conn.execute(db.author.insert().values(**author_data))
+        author_result = await conn.execute(
+            db.author.insert().values(**author_data)
+        )
+        author_id = await author_result.scalar()
+
+        post_result = await conn.execute(
+            db.post.insert().values(author_id=author_id, **post_data)
+        )
+        inserted_id = await post_result.scalar()
     return response.json({'id': inserted_id}, status=201)
 
 
