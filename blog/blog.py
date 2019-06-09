@@ -3,8 +3,8 @@ from collections import defaultdict
 
 from sanic import Blueprint, response
 from sanic.exceptions import NotFound
-from psycopg2.errors import UniqueViolation
 import sqlalchemy as sa
+import aiohttp
 
 from . import db
 from .serializers import PostSchema, CommentSchema
@@ -127,6 +127,13 @@ async def create_comment(request, post_id):
                 db.comments_posts.insert().values(comment_id=comment_id, post_id=fetched_post_id)
             )
     return response.json(dict(id=comment_id))
+
+
+@bp.route('/github')
+async def github_profile_into(request):
+    async with aiohttp.ClientSession() as session:
+        async with session.get('https://api.github.com/users/vladiio') as resp:
+            return response.raw(await resp.read(), content_type='application/json')
 
 
 async def fetch_entity_by_id(conn, entity, id):
