@@ -1,3 +1,5 @@
+import os
+
 import sqlalchemy as sa
 from aiopg.sa import create_engine
 
@@ -18,8 +20,10 @@ def register_tables_creator(creator):
 
 
 async def setup():
+
     engine = await create_engine(user='sanic',
-                                 database='trysanic',
+                                 database=os.environ.get(
+                                     'SANIC_APP_DB', 'trysanic'),
                                  host='localhost',
                                  password='pass',
                                  echo=True)
