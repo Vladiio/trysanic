@@ -12,7 +12,7 @@ def create_app():
     app.blueprint(blog.bp)
 
     app.register_listener(db.setup_db, 'before_server_start')
-    # app.register_listener(db.create_tables, 'after_server_start')
+    app.register_listener(db.create_tables, 'after_server_start')
     app.register_listener(db.close_db, 'after_server_stop')
 
     return app

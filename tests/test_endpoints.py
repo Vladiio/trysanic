@@ -1,13 +1,16 @@
-
-import requests
 from blog import blog
-
+from blog import db
 
 from app import app
 
 
-def test_index_returns_200():
+async def test_index_returns_200():
+    async with app.db.acquire() as conn:
+        await conn.execute(db.posts.insert(), content='test')
+
     request, response = app.test_client.get('/')
+    import pdb
+    pdb.set_trace()
     assert response.status == 200
 
 
