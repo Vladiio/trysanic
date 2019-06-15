@@ -18,7 +18,7 @@ async def posts(request):
     comments_by_post_id = defaultdict(list)
 
     async with request.app.db.acquire() as conn:
-        join = sa.join(db.post, db.author)
+        join = sa.outerjoin(db.post, db.author)
         stmt = sa.select([db.post.c.id, db.post.c.content,
                           db.author.c.name.label('author')]).select_from(join)
         async for post in await conn.execute(stmt):
@@ -34,14 +34,15 @@ async def posts(request):
         )
 
         async for comment in comments:
-            serialized_comment = {
-                column: value for column, value in comment.items()}
-            comments_by_post_id[comment.post_id].append(serialized_comment)
+            # serialized_comment = {
+                # column: value for column, value in comment.items()}
+            comments_by_post_id[comment.post_id].append(
+                dict(content=comment.content))
 
     for post in posts:
         post.setdefault('comments', [])
         comments = comments_by_post_id.get(post['id'])
-        comments and post['comments'].append(comments)
+        comments and post['comments'].extend(comments)
 
     return response.json(dict(posts=posts))
 

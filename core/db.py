@@ -20,7 +20,6 @@ def register_tables_creator(creator):
 
 
 async def setup():
-
     engine = await create_engine(user='sanic',
                                  database=os.environ.get(
                                      'SANIC_APP_DB', 'trysanic'),
@@ -37,3 +36,4 @@ async def setup_db(app, loop):
 
 async def close_db(app, loop):
     print('closing db...')
+    app.db.close()
