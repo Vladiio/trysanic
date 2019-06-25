@@ -90,4 +90,6 @@ def on_raw_message(body):
     print(body)
 
 
-
+@app.task
+def raising_task():
+    raise ValueError('Error!!!')

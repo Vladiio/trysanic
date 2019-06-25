@@ -11,3 +11,4 @@ task_routes = {
 task_annotations = {
     'tasks.add': { 'rate_limit': '1/m' }
 }
+
