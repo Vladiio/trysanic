@@ -1,0 +1,11 @@
+version: '3'
+services:
+    worker1:
+        build: .
+        depends_on:
+            - redis
+            - rabbit
+    redis:
+        image: "redis:alpine"
+    rabbit:
+        image: "rabbitmq:alpine"
