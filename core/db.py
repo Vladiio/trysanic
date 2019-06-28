@@ -23,7 +23,7 @@ async def setup():
     engine = await create_engine(user='sanic',
                                  database=os.environ.get(
                                      'SANIC_APP_DB', 'trysanic'),
-                                 host='localhost',
+                                 host=os.environ.get('DB_HOST'),
                                  password='pass',
                                  echo=True)
 

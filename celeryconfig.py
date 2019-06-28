@@ -1,9 +1,11 @@
+import os
+
 from kombu import Queue
 from kombu.common import Broadcast
 
 
-broker_url='pyamqp://guest@trysanic_rabbit_1//'
-result_backend='redis://trysanic_redis_1/'
+broker_url=f'pyamqp://guest@{os.environ.get("BROKER_HOST")}//'
+result_backend=f'redis://{os.environ.get("RESULT_BACKEND_HOST")}/'
 
 task_default_queue = 'default'
 tasks_queues = (

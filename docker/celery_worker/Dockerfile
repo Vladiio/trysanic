@@ -1,12 +1,8 @@
-FROM python:3.7.3-slim
+FROM python:3.7.3-alpine
 
-WORKDIR /usr/src/trysanic
-
-COPY . .
+WORKDIR /usr/src
 
 RUN pip install --no-cache-dir celery redis
-
-WORKDIR ../
 
 CMD celery -A trysanic worker -l info
 
