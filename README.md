@@ -1,7 +1,7 @@
-### Jarvis - your personal butler
+## Jarvis - your personal butler
 
 
-## Run the app locally
+### Run the app locally
 
 ```bash
 $ docker-compose -d up --build
