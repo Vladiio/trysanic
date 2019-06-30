@@ -9,6 +9,7 @@ $ curl http://locahost:8000
 ```
 
 ### Included services
+* nginx
 * web (sanic app)
 * db (postgresql)
 * celery beat
@@ -22,4 +23,14 @@ $ curl http://locahost:8000
 
 ```
 TELEGRAM_TOKEN - telegram bot api token
+DB_PWD
+DB_HOST
+SANIC_APP_DB=trysanic
 ```
+
+### TODO
+
+* Deploy the app
+* Implement weather notification
+* Implement planned activities notification
+* Add CI/CD

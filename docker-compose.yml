@@ -1,6 +1,12 @@
 version: '3'
 
 services:
+    nginx: 
+        build: ./docker/nginx 
+        volumes:
+            - "./docker/nginx/nginx.template:/etc/nginx/conf.d/default.conf"
+        ports:
+            - "80:80"
 
     web:
         build:
