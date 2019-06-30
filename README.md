@@ -1,4 +1,4 @@
-### Jarvis
+### Jarvis - your personal butler
 
 
 ## Run the app locally
