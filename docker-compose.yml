@@ -19,7 +19,7 @@ services:
         image: "postgres:alpine"
         environment:
             POSTGRES_USER: "sanic" 
-            POSTGRES_PASSWORD: "pass"
+            POSTGRES_PASSWORD: $DB_PWD
             POSTGRES_DB: "trysanic"
 
     worker1:
