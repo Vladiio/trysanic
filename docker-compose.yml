@@ -25,15 +25,31 @@ services:
     worker1:
         build: 
             context: .
-            dockerfile: ./docker/celery_worker/Dockerfile
-        environment:
-            RESULT_BACKEND_HOST: 'redis'
-            BROKER_HOST: 'rabbit'
+            dockerfile: ./docker/celery/Dockerfile
+        volumes: 
+            - .:/usr/src/trysanic
         depends_on:
             - redis
             - rabbit
-        volumes:
+
+    worker2:
+        build: 
+            context: .
+            dockerfile: ./docker/celery/Dockerfile
+        depends_on:
+            - redis
+            - rabbit
+        volumes: 
             - .:/usr/src/trysanic
+        command: celery -A trysanic worker -l info -Q high,default
+
+    beat:
+        build:
+            context: .
+            dockerfile: ./docker/celery/Dockerfile
+        volumes: 
+            - .:/usr/src/trysanic
+        command: celery -A trysanic beat -l info
 
     redis:
         image: "redis:alpine"

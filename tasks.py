@@ -1,7 +1,10 @@
 import random
+import os
 
+import requests
 from celery.utils.log import get_task_logger
 from celery import Task, chain
+from celery.schedules import crontab
 
 from .celery import app
 
@@ -93,3 +96,18 @@ def on_raw_message(body):
 @app.task
 def raising_task():
     raise ValueError('Error!!!')
+
+
+# -------------------------------------------------------
+TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
+API_URL = 'https://api.telegram.org/'
+CHAT_ID = 274965384
+
+@app.task
+def say_good_morning():
+    url = f'{API_URL}bot{TELEGRAM_TOKEN}/sendMessage'
+    data = dict(
+        chat_id=CHAT_ID,
+        text='Good morning, sir.'
+    )
+    res = requests.post(url, data=data)
