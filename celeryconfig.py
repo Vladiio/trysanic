@@ -4,13 +4,13 @@ from celery.schedules import crontab
 from kombu import Queue
 from kombu.common import Broadcast
 
-BROKER_HOST = os.environ.get("BROKER_HOST")
-RESULT_BACKEND_HOST = os.environ.get("RESULT_BACKEND_HOST")
+BROKER = os.environ.get("BROKER_HOST")
+RESULT = os.environ.get("RESULT_BACKEND_HOST")
 
 timezone = 'Europe/Kiev'
 
-broker_url=f'pyamqp://guest@{BROKER_HOST}//'
-result_backend=f'redis://{RESULT_BACKEND_HOST}/'
+broker_url=f'pyamqp://guest@{BROKER}//'
+result_backend=f'redis://{RESULT}/'
 
 imports = ['trysanic.tasks']
 
@@ -37,5 +37,6 @@ beat_schedule = {
     'good_morning': {
         'task': 'trysanic.tasks.say_good_morning', 'schedule': crontab(hour=7, minute=30)
     }
+
 }
 
