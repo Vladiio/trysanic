@@ -12,8 +12,8 @@ services:
             - web
         deploy:
             placement:
-            constraints:
-                - node.role == worker
+                constraints:
+                    - node.role == worker
 
     web:
         image: 127.0.0.1:5000/trysanic_web
@@ -30,8 +30,8 @@ services:
             - db
         deploy:
             placement:
-            constraints:
-                - node.role == worker
+                constraints:
+                    - node.role == worker
         
     db:
         image: "postgres:alpine"
@@ -41,8 +41,8 @@ services:
             POSTGRES_DB: "trysanic"
         deploy:
             placement:
-            constraints:
-                - node.role == worker
+                constraints:
+                    - node.role == worker
 
     worker1:
         image: 127.0.0.1:5000/trysanic_worker1
@@ -58,8 +58,8 @@ services:
             - rabbit
         deploy:
             placement:
-            constraints:
-                - node.role == worker
+                constraints:
+                    - node.role == worker
 
     worker2:
         image: 127.0.0.1:5000/trysanic_worker2
@@ -76,8 +76,8 @@ services:
         command: celery -A trysanic worker -l info -Q high,default
         deploy:
             placement:
-            constraints:
-                - node.role == worker
+                constraints:
+                    - node.role == worker
 
     beat:
         image: 127.0.0.1:5000/trysanic_beat
@@ -89,20 +89,20 @@ services:
         command: celery -A trysanic beat -l info
         deploy:
             placement:
-            constraints:
-                - node.role == worker
+                constraints:
+                    - node.role == worker
 
     redis:
         image: "redis:alpine"
         deploy:
             placement:
-            constraints:
-                - node.role == worker
+                constraints:
+                    - node.role == worker
 
     rabbit:
         image: "rabbitmq:alpine"
         deploy:
             placement:
-            constraints:
-                - node.role == worker
+                constraints:
+                    - node.role == worker
 
