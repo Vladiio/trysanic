@@ -10,6 +10,10 @@ services:
             - "80:80"
         depends_on:
             - web
+        deploy:
+            placement:
+            constraints:
+                - node.role == worker
 
     web:
         image: 127.0.0.1:5000/trysanic_web
@@ -24,6 +28,10 @@ services:
             - "8000:8000"
         depends_on:
             - db
+        deploy:
+            placement:
+            constraints:
+                - node.role == worker
         
     db:
         image: "postgres:alpine"
@@ -31,6 +39,10 @@ services:
             POSTGRES_USER: "sanic" 
             POSTGRES_PASSWORD: $DB_PWD
             POSTGRES_DB: "trysanic"
+        deploy:
+            placement:
+            constraints:
+                - node.role == worker
 
     worker1:
         image: 127.0.0.1:5000/trysanic_worker1
@@ -44,6 +56,10 @@ services:
         depends_on:
             - redis
             - rabbit
+        deploy:
+            placement:
+            constraints:
+                - node.role == worker
 
     worker2:
         image: 127.0.0.1:5000/trysanic_worker2
@@ -58,6 +74,10 @@ services:
         volumes: 
             - .:/usr/src/trysanic
         command: celery -A trysanic worker -l info -Q high,default
+        deploy:
+            placement:
+            constraints:
+                - node.role == worker
 
     beat:
         image: 127.0.0.1:5000/trysanic_beat
@@ -67,10 +87,22 @@ services:
         volumes: 
             - .:/usr/src/trysanic
         command: celery -A trysanic beat -l info
+        deploy:
+            placement:
+            constraints:
+                - node.role == worker
 
     redis:
         image: "redis:alpine"
+        deploy:
+            placement:
+            constraints:
+                - node.role == worker
 
     rabbit:
         image: "rabbitmq:alpine"
+        deploy:
+            placement:
+            constraints:
+                - node.role == worker
 
