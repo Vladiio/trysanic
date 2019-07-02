@@ -74,8 +74,3 @@ services:
     rabbit:
         image: "rabbitmq:alpine"
 
-secrets:
-    TELEGRAM_TOKEN:
-        external: true
-    DB_PWD:
-        external: true
