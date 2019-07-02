@@ -31,6 +31,7 @@ SANIC_APP_DB=trysanic
 ### TODO
 
 * Deploy the app
+* Sort out the issue with multiple swarm nodes
 * Implement weather notification
 * Implement planned activities notification
 * Add CI/CD
