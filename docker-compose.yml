@@ -13,7 +13,7 @@ services:
         deploy:
             placement:
                 constraints:
-                    - node.role == worker
+                    - node.role == manager
 
     web:
         image: 127.0.0.1:5000/trysanic_web
