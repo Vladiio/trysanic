@@ -64,7 +64,7 @@ services:
                 constraints:
                     - node.role == manager
 
-      worker2:
+    worker2:
           image: 127.0.0.1:5000/trysanic_worker2
           build: 
               context: .
@@ -77,10 +77,10 @@ services:
           volumes: 
               - .:/usr/src/trysanic
           command: celery -A trysanic worker -l info -Q high,default
-        deploy:
-            placement:
-                constraints:
-                    - node.role == manager
+          deploy:
+              placement:
+                  constraints:
+                      - node.role == manager
 
 
     beat:
