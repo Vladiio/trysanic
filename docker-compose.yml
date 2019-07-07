@@ -10,6 +10,10 @@ services:
             - "80:80"
         depends_on:
             - web
+        deploy:
+            placement:
+                constraints:
+                    - node.role == worker
 
     web:
         image: 127.0.0.1:5000/trysanic_web
