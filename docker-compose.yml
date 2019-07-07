@@ -45,19 +45,19 @@ services:
             - redis
             - rabbit
 
-    worker2:
-        image: 127.0.0.1:5000/trysanic_worker2
-        build: 
-            context: .
-            dockerfile: ./docker/celery/Dockerfile
-        depends_on:
-            - redis
-            - rabbit
-        environment:
-            TELEGRAM_TOKEN: $TELEGRAM_TOKEN
-        volumes: 
-            - .:/usr/src/trysanic
-        command: celery -A trysanic worker -l info -Q high,default
+              #worker2:
+              #    image: 127.0.0.1:5000/trysanic_worker2
+              #    build: 
+              #        context: .
+              #        dockerfile: ./docker/celery/Dockerfile
+              #    depends_on:
+              #        - redis
+              #        - rabbit
+              #    environment:
+              #        TELEGRAM_TOKEN: $TELEGRAM_TOKEN
+              #    volumes: 
+              #        - .:/usr/src/trysanic
+              #    command: celery -A trysanic worker -l info -Q high,default
 
     beat:
         image: 127.0.0.1:5000/trysanic_beat
