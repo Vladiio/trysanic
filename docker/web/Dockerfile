@@ -11,4 +11,4 @@ RUN pip install -r requirements.txt
 HEALTHCHECK --interval=10s --timeout=3s \
     CMD curl -f http://localhost:8000 || exit 1
 
-CMD gunicorn --worker-class sanic.worker.GunicornWorker -w 1 -b :8000 app:app
+CMD gunicorn --worker-class sanic.worker.GunicornWorker -w 4 -b :8000 app:app
