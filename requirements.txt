@@ -7,7 +7,7 @@ sqlalchemy==1.2.16
 aiopg==0.16.0
 ujson==1.35
 celery==4.3.0rc1
-aiohttp==3.5.4
+aiohttp==3.7.4
 aioredis==1.2.0
 aio-pika==4.9.3
 marshmallow==2.18.0
