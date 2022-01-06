@@ -6,7 +6,7 @@ psycopg2-binary==2.7.7
 sqlalchemy==1.2.16
 aiopg==0.16.0
 ujson==1.35
-celery==4.3.0rc1
+celery==5.2.2
 aiohttp==3.5.4
 aioredis==1.2.0
 aio-pika==4.9.3
@@ -16,6 +16,6 @@ uvloop==0.12.0
 pyyaml==3.13
 aiozk==0.12.0
 newrelic==4.16.1.117
-celery==4.3.0rc1
+celery==5.2.2
 redis==3.2.1
 gunicorn==19.9.0
