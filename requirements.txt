@@ -5,7 +5,7 @@ sanic-cors==0.9.7
 psycopg2-binary==2.7.7
 sqlalchemy==1.2.16
 aiopg==0.16.0
-ujson==1.35
+ujson==5.4.0
 celery==4.3.0rc1
 aiohttp==3.5.4
 aioredis==1.2.0
